@@ -14,7 +14,6 @@ jobs:
     - name: Checkout
       run: cat install.sh
       
-    - name: Run a multi-line script
+    - name: Build
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        LNMP_Auto="y" DBSelect="5" DB_Root_Password="lnmp.org" InstallInnodb="y" PHPSelect="9" SelectMalloc="2" ./install.sh lnmp
