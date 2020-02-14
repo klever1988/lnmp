@@ -16,4 +16,4 @@ jobs:
       
     - name: Build
       run: |
-        LNMP_Auto="y" DBSelect="5" DB_Root_Password="lnmp.org" InstallInnodb="y" PHPSelect="9" SelectMalloc="2" ./install.sh lnmp
+        LNMP_Auto="y" DBSelect="5" DB_Root_Password="lnmp.org" InstallInnodb="y" PHPSelect="9" SelectMalloc="2" sudo ./install.sh lnmp
