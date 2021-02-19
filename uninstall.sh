@@ -1,6 +1,5 @@
-#!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+#!/usr/bin/env bash
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -11,7 +10,7 @@ fi
 cur_dir=$(pwd)
 Stack=$1
 
-LNMP_Ver='1.6'
+LNMP_Ver='1.8'
 
 . lnmp.conf
 . include/main.sh
@@ -86,6 +85,9 @@ Uninstall_LNMP()
     if [ -s /usr/local/acme.sh/acme.sh ]; then
         /usr/local/acme.sh/acme.sh --uninstall
         rm -rf /usr/local/acme.sh
+        if crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh"; then
+            crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh" | crontab -
+        fi
     fi
 
     rm -f /etc/init.d/nginx
@@ -126,6 +128,9 @@ Uninstall_LNMPA()
     if [ -s /usr/local/acme.sh/acme.sh ]; then
         /usr/local/acme.sh/acme.sh --uninstall
         rm -rf /usr/local/acme.sh
+        if crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh"; then
+            crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh" | crontab -
+        fi
     fi
 
     rm -f /etc/init.d/nginx
@@ -164,6 +169,9 @@ Uninstall_LAMP()
     if [ -s /usr/local/acme.sh/acme.sh ]; then
         /usr/local/acme.sh/acme.sh --uninstall
         rm -rf /usr/local/acme.sh
+        if crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh"; then
+            crontab -l|grep -v "/usr/local/acme.sh/upgrade.sh" | crontab -
+        fi
     fi
 
     rm -f /etc/my.cnf

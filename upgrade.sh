@@ -1,6 +1,5 @@
-#!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+#!/usr/bin/env bash
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -50,7 +49,7 @@ Display_Upgrade_Menu()
 
 clear
 echo "+-----------------------------------------------------------------------+"
-echo "|            Upgrade script for LNMP V1.6, Written by Licess            |"
+echo "|            Upgrade script for LNMP V1.7, Written by Licess            |"
 echo "+-----------------------------------------------------------------------+"
 echo "|     A tool to upgrade Nginx,MySQL/Mariadb,PHP for LNMP/LNMPA/LAMP     |"
 echo "+-----------------------------------------------------------------------+"

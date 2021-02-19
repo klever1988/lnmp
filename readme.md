@@ -1,5 +1,3 @@
-**当前为1.7测试版**
-
 # LNMP一键安装包 - Readme
 
 ## LNMP一键安装包是什么?
@@ -19,13 +17,13 @@ LNMP一键安装包是一个用Linux Shell编写的可以为CentOS/RHEL/Fedora/A
 
 安装前确认已经安装wget命令，如提示wget: command not found ，使用`yum install wget` 或 `apt-get install wget` 命令安装。
 为防止掉线等情况，建议使用screen，可以先执行：screen -S lnmp 命令后，再执行LNMP安装命令：
-`wget http://soft.vpser.net/lnmp/lnmp1.6.tar.gz -cO lnmp1.6.tar.gz && tar zxf lnmp1.6.tar.gz && cd lnmp1.6 && ./install.sh {lnmp|lnmpa|lamp}`
+`wget http://soft.vpser.net/lnmp/lnmp1.8beta.tar.gz -cO lnmp1.8.tar.gz && tar zxf lnmp1.8.tar.gz && cd lnmp1.8 && ./install.sh {lnmp|lnmpa|lamp}`
 
 如断线可使用`screen -r lnmp` 恢复。**详细安装教程参考：<https://lnmp.org/install.html>**
 
 ## 常用功能说明
 
-**以下操作需在lnmp安装包目录下执行，如lnmp1.6**
+**以下操作需在lnmp安装包目录下执行，如lnmp1.8**
 
 ### 自定义参数
 lnmp.conf配置文件，可以修改lnmp.conf自定义下载服务器地址、网站/数据库目录及添加nginx模块和php编译参数；不论安装升级都会调用该文件里的设置(如果修改了默认的参数建议备份此文件)；
@@ -36,14 +34,14 @@ lnmp.conf配置文件，可以修改lnmp.conf自定义下载服务器地址、�
 ### 升级脚本：
 执行：`./upgrade.sh` 按提示进行选择
 也可以直接带参数：`./upgrade.sh {nginx|mysql|mariadb|php|phpa|m2m|phpmyadmin}`
-* 参数: nginx 可升级至任意Nginx版本。
-* 参数: mysql 可升级至任意MySQL版本，MySQL升级风险较大，虽然会自动备份数据，依然建议自行再备份一下。
+* 参数: nginx   可升级至任意Nginx版本。
+* 参数: mysql   可升级至任意MySQL版本，MySQL升级风险较大，虽然会自动备份数据，依然建议自行再备份一下。
 * 参数: mariadb 可升级已安装的Mariadb，虽然会自动备份数据，依然建议自行再备份一下。
-* 参数: m2m    可从MySQL升级至Mariadb，虽然会自动备份数据，依然建议自行再备份一下。
-* 参数: php   仅适用于LNMP，可升级至大部分PHP版本。
+* 参数: m2m     可从MySQL升级至Mariadb，虽然会自动备份数据，依然建议自行再备份一下。
+* 参数: php     仅适用于LNMP，可升级至大部分PHP版本。
 * 参数: phpa    可升级LNMPA/LAMP的PHP至大部分版本。
+* 参数: mphp    多PHP版本升级工具，只支持7.2.x-7.2.x类似小版本升级，大版本直接新装即可；
 * 参数: phpmyadmin    可升级phpMyadmin。
-* 参数: mphp    同版本内升级多PHP版本。
 
 ### 扩展插件
 执行: `./addons.sh {install|uninstall} {eaccelerator|xcache|memcached|opcache|redis|apcu|imagemagick|ioncube}`
@@ -109,7 +107,7 @@ MariaDB 10.4 | 10 | PHP 7.4 | 10 | | | |
 
 * 以LNMP模式，默认选项安装MySQL 5.5、MySQL root密码设置为lnmp.org、启用InnoDB、PHP 5.6、不安装内存分配器为例，先执行([建议先运行screen](https://www.vpser.net/manage/run-screen-lnmp.html))，再下载解压lnmp安装包：
 
-`wget http://soft.vpser.net/lnmp/lnmp1.7beta.tar.gz -cO lnmp1.7beta.tar.gz && tar zxf lnmp1.7beta.tar.gz && cd lnmp1.7`
+`wget http://soft.vpser.net/lnmp/lnmp1.8beta.tar.gz -cO lnmp1.8.tar.gz && tar zxf lnmp1.8.tar.gz && cd lnmp1.8`
 
 然后设置无人值守参数并安装：
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 Install_Redis()
 {
@@ -17,6 +17,9 @@ Install_Redis()
     if [ -s /usr/local/redis/bin/redis-server ]; then
         echo "Redis server already exists."
     else
+        if gcc -dumpversion|grep -q "^[34]."; then
+            Redis_Stable_Ver='redis-5.0.9'
+        fi
         Download_Files http://download.redis.io/releases/${Redis_Stable_Ver}.tar.gz ${Redis_Stable_Ver}.tar.gz
         Tar_Cd ${Redis_Stable_Ver}.tar.gz ${Redis_Stable_Ver}
 
@@ -83,11 +86,12 @@ extension = "redis.so"
 EOF
 
     \cp ${cur_dir}/init.d/init.d.redis /etc/init.d/redis
+    \cp ${cur_dir}/init.d/redis.service /etc/systemd/system/redis.service
     chmod +x /etc/init.d/redis
     echo "Add to auto startup..."
     StartUp redis
     Restart_PHP
-    /etc/init.d/redis start
+    StartOrStop start redis
 
     if [ -s "${zend_ext}" ] && [ -s /usr/local/redis/bin/redis-server ]; then
         Echo_Green "====== Redis install completed ======"

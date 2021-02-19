@@ -1,6 +1,5 @@
-#!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+#!/usr/bin/env bash
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -11,11 +10,19 @@ fi
 . ../lnmp.conf
 . ../include/main.sh
 Get_Dist_Name
+Get_Dist_Version
 
 Press_Start
 
 if [ "${PM}" = "yum" ]; then
     yum install python iptables rsyslog -y
+    if [ "${DISTRO}" = "CentOS" ] && echo "${CentOS_Version}" | grep -Eqi "^8"; then
+        dnf install python2 -y
+        alternatives --set python /usr/bin/python2
+    fi
+    if ! command -v iptables >/dev/null 2>&1; then
+        yum install iptables -y
+    fi
     service rsyslog restart
     \cp /var/log/secure /var/log/secure.$(date +"%Y%m%d%H%M%S")
     cat /dev/null > /var/log/secure
@@ -29,8 +36,8 @@ fi
 
 echo "Downloading..."
 cd ../src
-Download_Files ${Download_Mirror}/security/fail2ban/fail2ban-0.10.4.tar.gz fail2ban-0.10.4.tar.gz
-tar zxf fail2ban-0.10.4.tar.gz && cd fail2ban-0.10.4
+Download_Files ${Download_Mirror}/security/fail2ban/fail2ban-0.11.1.tar.gz fail2ban-0.11.1.tar.gz
+tar zxf fail2ban-0.11.1.tar.gz && cd fail2ban-0.11.1
 echo "Installing..."
 python setup.py install
 
@@ -53,7 +60,7 @@ echo "Copy init files..."
 if [ ! -d /var/run/fail2ban ];then
     mkdir /var/run/fail2ban
 fi
-if [ `/sbin/iptables -h|grep -c "\-w"` -eq 0 ]; then
+if [ `iptables -h|grep -c "\-w"` -eq 0 ]; then
     sed -i 's/lockingopt =.*/lockingopt =/g' /etc/fail2ban/action.d/iptables-common.conf
 fi
 if [ "${PM}" = "yum" ]; then
@@ -63,9 +70,10 @@ elif [ "${PM}" = "apt" ]; then
     ln -sf /usr/local/bin/fail2ban-client /usr/bin/fail2ban-client
     \cp files/debian-initd /etc/init.d/fail2ban
 fi
+\cp ../../init.d/fail2ban.service /etc/systemd/system/fail2ban.service
 chmod +x /etc/init.d/fail2ban
 cd ..
-rm -rf fail2ban-0.10.4
+rm -rf fail2ban-0.11.1
 
 StartUp fail2ban
 

@@ -1,6 +1,5 @@
-#!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+#!/usr/bin/env bash
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -16,7 +15,7 @@ else
     Stack=$1
 fi
 
-LNMP_Ver='1.7'
+LNMP_Ver='1.8'
 . lnmp.conf
 . include/main.sh
 . include/init.sh
@@ -62,6 +61,7 @@ Init_Install()
     Get_Dist_Version
     Print_Sys_Info
     Check_Hosts
+    Check_CMPT
     if [ "${CheckMirror}" != "n" ]; then
         Check_Mirror
     fi
@@ -101,7 +101,6 @@ Init_Install()
         CentOS_Lib_Opt
     elif [ "$PM" = "apt" ]; then
         Deb_Lib_Opt
-        Deb_Check_MySQL
     fi
     if [ "${DBSelect}" = "1" ]; then
         Install_MySQL_51
@@ -151,6 +150,8 @@ Install_PHP()
         Install_PHP_73
     elif [ "${PHPSelect}" = "10" ]; then
         Install_PHP_74
+    elif [ "${PHPSelect}" = "11" ]; then
+        Install_PHP_80
     fi
     Clean_PHP_Src_Dir
 }

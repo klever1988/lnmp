@@ -1,6 +1,5 @@
-#!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+#!/usr/bin/env bash
+export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
 # Check if user is root
 if [ $(id -u) != "0" ]; then
@@ -11,11 +10,17 @@ fi
 . ../lnmp.conf
 . ../include/main.sh
 Get_Dist_Name
+Get_Dist_Version
 
 Press_Start
 
 if [ "${PM}" = "yum" ]; then
     yum install python rsyslog python-ipaddr -y
+    if [ "${DISTRO}" = "CentOS" ] && echo "${CentOS_Version}" | grep -Eqi "^8"; then
+        dnf install python2 -y
+        alternatives --set python /usr/bin/python2
+        pip2 install ipaddr
+    fi
     service rsyslog restart
     cat /dev/null > /var/log/secure
 elif [ "${PM}" = "apt" ]; then
